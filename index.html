@@ -596,7 +596,7 @@ async function loadQuestions(
 
       .eq('subject_id', subjectId)
 
-      .eq('year', 2026)
+      .eq('year', Number(document.getElementById('yearSelect').value))
 
       .order(
         'question_number',
