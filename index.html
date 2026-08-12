@@ -139,67 +139,83 @@
     // Load questions for selected topic
     async function loadQuestions(topicId) {
 
-      const container =
-        document.getElementById('questions');
+  const container =
+    document.getElementById('questions');
 
-      container.innerHTML =
-        'Loading questions...';
-
-
-      const { data, error } = await supabaseClient
-        .from('questions')
-        .select('*')
-        .eq('topic_id', topicId)
-        .order('year', { ascending: false });
+  container.innerHTML =
+    'Loading questions...';
 
 
-      if (error) {
-
-        container.innerText =
-          'Error loading questions: ' + error.message;
-
-        return;
-      }
+  const { data, error } = await supabaseClient
+    .from('questions')
+    .select('*')
+    .eq('topic_id', topicId)
+    .order('year', { ascending: false });
 
 
-      container.innerHTML = '';
+  if (error) {
+
+    container.innerText =
+      'Error loading questions: ' + error.message;
+
+    return;
+  }
 
 
-      data.forEach(question => {
+  container.innerHTML = '';
 
-        const card =
-          document.createElement('div');
 
-        card.innerHTML = `
+  data.forEach(question => {
 
-          <hr>
+    const card =
+      document.createElement('div');
 
-          <h3>
-            ${question.year} — Question ${question.question_number}
-          </h3>
+    card.innerHTML = `
 
-          <p>
-            ${question.question_text}
-          </p>
+      <hr>
 
-          <p>A. ${question.option_a}</p>
-          <p>B. ${question.option_b}</p>
-          <p>C. ${question.option_c}</p>
-          <p>D. ${question.option_d}</p>
+      <h3>
+        ${question.year} — Question ${question.question_number}
+      </h3>
 
-          <button onclick="
-            alert('Answer: ${question.answer}')
-          ">
-            Show Answer
-          </button>
+      <p>
+        ${question.question_text}
+      </p>
 
-        `;
+      <p>A. ${question.option_a}</p>
+      <p>B. ${question.option_b}</p>
+      <p>C. ${question.option_c}</p>
+      <p>D. ${question.option_d}</p>
 
-        container.appendChild(card);
+      <button>
+        Show Answer
+      </button>
 
-      });
+      <p class="answer" style="display:none;">
+        <strong>Answer: ${question.answer}</strong>
+      </p>
 
-    }
+    `;
+
+    const button =
+      card.querySelector('button');
+
+    const answer =
+      card.querySelector('.answer');
+
+    button.onclick = () => {
+
+      answer.style.display = 'block';
+
+      button.style.display = 'none';
+
+    };
+
+    container.appendChild(card);
+
+  });
+
+}
 
 
     // Start
