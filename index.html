@@ -1,217 +1,515 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IASYAS - UPSC PYQ Explorer</title>
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>IASYAS — UPSC PYQ Explorer</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                   Roboto, Helvetica, Arial, sans-serif;
+
+      min-height: 100vh;
+
+      color: #ffffff;
+
+      background:
+        radial-gradient(circle at 15% 20%, #243b70 0%, transparent 35%),
+        radial-gradient(circle at 85% 80%, #552c70 0%, transparent 35%),
+        linear-gradient(135deg, #080b16, #11182b);
+
+      padding: 25px 15px;
+    }
+
+
+    /* Main container */
+
+    .container {
+      width: 100%;
+      max-width: 1050px;
+      margin: auto;
+    }
+
+
+    /* Glass effect */
+
+    .glass {
+      background: rgba(255, 255, 255, 0.08);
+
+      border: 1px solid rgba(255, 255, 255, 0.15);
+
+      box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.35);
+
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+
+      border-radius: 22px;
+    }
+
+
+    /* Header */
+
+    .header {
+      text-align: center;
+      padding: 35px 20px;
+      margin-bottom: 25px;
+    }
+
+    .logo {
+      font-size: 42px;
+      font-weight: 800;
+      letter-spacing: 3px;
+
+      background: linear-gradient(
+        90deg,
+        #ffffff,
+        #b9c7ff
+      );
+
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      margin-top: 8px;
+      color: rgba(255,255,255,0.65);
+      font-size: 15px;
+      letter-spacing: 1px;
+    }
+
+
+    /* Section */
+
+    .section-title {
+      font-size: 22px;
+      margin: 25px 5px 15px;
+    }
+
+
+    /* Subjects */
+
+    #subjects {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(auto-fit, minmax(220px, 1fr));
+
+      gap: 15px;
+    }
+
+
+    .subject-card {
+
+      width: 100%;
+
+      padding: 22px;
+
+      text-align: left;
+
+      color: white;
+
+      cursor: pointer;
+
+      background:
+        rgba(255,255,255,0.08);
+
+      border: 1px solid
+        rgba(255,255,255,0.15);
+
+      border-radius: 20px;
+
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+
+      transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        border 0.2s ease;
+    }
+
+
+    .subject-card:hover {
+
+      transform: translateY(-4px);
+
+      background:
+        rgba(255,255,255,0.13);
+
+      border-color:
+        rgba(255,255,255,0.3);
+    }
+
+
+    .subject-name {
+
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+
+    .subject-label {
+
+      margin-top: 7px;
+
+      font-size: 13px;
+
+      color:
+        rgba(255,255,255,0.55);
+    }
+
+
+    /* Questions */
+
+    #questions {
+      margin-top: 15px;
+    }
+
+
+    .question-card {
+
+      padding: 25px;
+
+      margin-bottom: 18px;
+
+      background:
+        rgba(255,255,255,0.07);
+
+      border:
+        1px solid rgba(255,255,255,0.13);
+
+      border-radius: 20px;
+
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+
+      box-shadow:
+        0 8px 30px rgba(0,0,0,0.25);
+    }
+
+
+    .question-number {
+
+      font-size: 13px;
+
+      color:
+        #aebeff;
+
+      margin-bottom: 12px;
+
+      font-weight: 600;
+    }
+
+
+    .question-text {
+
+      font-size: 17px;
+
+      line-height: 1.65;
+
+      margin-bottom: 20px;
+    }
+
+
+    /* Options */
+
+    .option {
+
+      padding: 13px 15px;
+
+      margin-top: 9px;
+
+      border-radius: 12px;
+
+      background:
+        rgba(255,255,255,0.055);
+
+      border:
+        1px solid rgba(255,255,255,0.09);
+
+      color:
+        rgba(255,255,255,0.85);
+    }
+
+
+    /* Answer button */
+
+    .answer-button {
+
+      margin-top: 20px;
+
+      padding: 11px 18px;
+
+      border: none;
+
+      border-radius: 12px;
+
+      color: white;
+
+      font-weight: 600;
+
+      cursor: pointer;
+
+      background:
+        linear-gradient(
+          135deg,
+          #536dfe,
+          #8e5de7
+        );
+
+      box-shadow:
+        0 5px 20px rgba(83,109,254,0.25);
+
+      transition:
+        transform 0.2s ease,
+        opacity 0.2s ease;
+    }
+
+
+    .answer-button:hover {
+      transform: translateY(-2px);
+      opacity: 0.9;
+    }
+
+
+    /* Answer */
+
+    .answer {
+
+      margin-top: 15px;
+
+      padding: 14px;
+
+      border-radius: 12px;
+
+      background:
+        rgba(76,175,80,0.12);
+
+      border:
+        1px solid rgba(76,175,80,0.25);
+
+      color:
+        #d8ffd9;
+    }
+
+
+    /* Loading */
+
+    .loading {
+
+      text-align: center;
+
+      padding: 30px;
+
+      color:
+        rgba(255,255,255,0.6);
+    }
+
+
+    /* Mobile */
+
+    @media (max-width: 600px) {
+
+      body {
+        padding: 15px 10px;
+      }
+
+      .logo {
+        font-size: 34px;
+      }
+
+      .header {
+        padding: 28px 15px;
+      }
+
+      .section-title {
+        font-size: 20px;
+      }
+
+      .question-card {
+        padding: 20px;
+      }
+
+      .question-text {
+        font-size: 16px;
+      }
+
+    }
+
+  </style>
+
 </head>
+
 
 <body>
 
-  <h1>IASYAS</h1>
-  <p>UPSC PYQ Explorer</p>
 
-  <hr>
+<div class="container">
 
-  <h2>Subjects</h2>
 
-  <div id="subjects">
-    Loading subjects...
+  <!-- HEADER -->
+
+  <div class="glass header">
+
+    <div class="logo">
+      IASYAS
+    </div>
+
+    <div class="subtitle">
+      UPSC PRELIMS PYQ EXPLORER
+    </div>
+
   </div>
 
-  <h2 id="topics-title" style="display:none;">
-    Topics
+
+  <!-- SUBJECTS -->
+
+  <h2 class="section-title">
+    Subjects
   </h2>
 
-  <div id="topics"></div>
+  <div id="subjects">
 
-  <h2 id="selected-topic">Questions</h2>
+    <div class="loading">
+      Loading subjects...
+    </div>
 
-  <div id="questions">
-    Select a subject to explore its topics.
   </div>
 
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- QUESTIONS -->
 
-  <script>
-
-    const SUPABASE_URL =
-      'https://obtqkzauwrcwhhzionur.supabase.co';
-
-    const SUPABASE_KEY =
-      'sb_publishable_tbdljFG952LxK0X0UNroAA__MlkQJrX';
-
-    const supabaseClient =
-      supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  <h2
+    id="selected-topic"
+    class="section-title"
+    style="display:none;"
+  >
+    Questions
+  </h2>
 
 
-    // Load subjects
-    async function loadSubjects() {
+  <div id="questions">
 
-      const { data, error } = await supabaseClient
-        .from('subjects')
-        .select('*')
-        .order('name');
+    <div class="glass loading">
+      Select a subject to explore its PYQs.
+    </div>
 
-      if (error) {
-        document.getElementById('subjects').innerText =
-          'Error: ' + error.message;
-        return;
-      }
-
-      const container =
-        document.getElementById('subjects');
-
-      container.innerHTML = '';
-
-      data.forEach(subject => {
-
-        const button =
-          document.createElement('button');
-
-        button.innerText = subject.name;
-
-        button.onclick = () =>
-  loadQuestions(subject.id, subject.name);
-
-        container.appendChild(button);
-
-      });
-    }
+  </div>
 
 
-    // Load topics for selected subject
-    async function loadTopics(subjectId, subjectName) {
-
-      document.getElementById('topics-title').style.display =
-        'block';
-
-      const container =
-        document.getElementById('topics');
-
-      container.innerHTML =
-        'Loading topics...';
-
-      document.getElementById('questions').innerHTML =
-        'Select a topic to see questions.';
+</div>
 
 
-      const { data, error } = await supabaseClient
-        .from('topics')
-        .select('*')
-        .eq('subject_id', subjectId)
-        .order('name');
+
+<!-- SUPABASE -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 
-      if (error) {
-
-        container.innerText =
-          'Error loading topics: ' + error.message;
-
-        return;
-      }
+<script>
 
 
-      container.innerHTML = '';
+/* =========================
+   SUPABASE
+========================= */
 
 
-      data.forEach(topic => {
-
-        const button =
-          document.createElement('button');
-
-        button.innerText = topic.name;
-
-        button.onclick = () =>
-  loadQuestions(topic.id, topic.name);
-
-        container.appendChild(button);
-
-        container.appendChild(
-          document.createElement('br')
-        );
-
-      });
-    }
+const SUPABASE_URL =
+  'https://obtqkzauwrcwhhzionur.supabase.co';
 
 
-    // Load questions for selected topic
-    async function loadQuestions(topicId, topicName) {
-  const container =
-    document.getElementById('questions');
-
-  container.innerHTML =
-    'Loading questions...';
+const SUPABASE_KEY =
+  'sb_publishable_tbdljFG952LxK0X0UNroAA__MlkJrX';
 
 
-  const { data, error } = await supabaseClient
-    .from('questions')
-    .select('*')
-    .eq('subject_id', topicId)
-    .order('year', { ascending: false });
+const supabaseClient =
+  supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+
+/* =========================
+   LOAD SUBJECTS
+========================= */
+
+
+async function loadSubjects() {
+
+
+  const { data, error } =
+    await supabaseClient
+
+      .from('subjects')
+
+      .select('*')
+
+      .order('name');
 
 
   if (error) {
 
-    container.innerText =
-      'Error loading questions: ' + error.message;
+    document.getElementById('subjects')
+      .innerHTML =
+      `<div class="glass loading">
+        Error: ${error.message}
+       </div>`;
 
     return;
   }
 
 
+  const container =
+    document.getElementById('subjects');
+
+
   container.innerHTML = '';
 
-document.getElementById('selected-topic').innerText =
-  `${topicName} — ${data.length} PYQ${data.length === 1 ? '' : 's'}`;
 
+  data.forEach(subject => {
 
-  data.forEach(question => {
 
     const card =
-      document.createElement('div');
+      document.createElement('button');
+
+
+    card.className =
+      'subject-card';
+
 
     card.innerHTML = `
 
-      <hr>
+      <div class="subject-name">
+        ${subject.name}
+      </div>
 
-      <h3>
-        ${question.year} — Question ${question.question_number}
-      </h3>
-
-      <p>
-        ${question.question_text}
-      </p>
-
-      <p>A. ${question.option_a}</p>
-      <p>B. ${question.option_b}</p>
-      <p>C. ${question.option_c}</p>
-      <p>D. ${question.option_d}</p>
-
-      <button>
-        Show Answer
-      </button>
-
-      <p class="answer" style="display:none;">
-        <strong>Answer: ${question.answer}</strong>
-      </p>
+      <div class="subject-label">
+        Explore 2026 PYQs →
+      </div>
 
     `;
 
-    const button =
-      card.querySelector('button');
 
-    const answer =
-      card.querySelector('.answer');
+    card.onclick = () =>
+      loadQuestions(
+        subject.id,
+        subject.name
+      );
 
-    button.onclick = () => {
-
-      answer.style.display = 'block';
-
-      button.style.display = 'none';
-
-    };
 
     container.appendChild(card);
 
@@ -220,10 +518,215 @@ document.getElementById('selected-topic').innerText =
 }
 
 
-    // Start
-    loadSubjects();
 
-  </script>
+/* =========================
+   LOAD QUESTIONS
+========================= */
+
+
+async function loadQuestions(
+  subjectId,
+  subjectName
+) {
+
+
+  const title =
+    document.getElementById(
+      'selected-topic'
+    );
+
+
+  title.style.display =
+    'block';
+
+
+  title.innerText =
+    `${subjectName} — Loading...`;
+
+
+  const container =
+    document.getElementById(
+      'questions'
+    );
+
+
+  container.innerHTML = `
+
+    <div class="glass loading">
+      Loading PYQs...
+    </div>
+
+  `;
+
+
+  const { data, error } =
+    await supabaseClient
+
+      .from('questions')
+
+      .select('*')
+
+      .eq('subject_id', subjectId)
+
+      .eq('year', 2026)
+
+      .order(
+        'question_number',
+        { ascending: true }
+      );
+
+
+  if (error) {
+
+    container.innerHTML = `
+
+      <div class="glass loading">
+        Error loading questions:
+        ${error.message}
+      </div>
+
+    `;
+
+    return;
+  }
+
+
+  title.innerText =
+    `${subjectName} — ${data.length} PYQs`;
+
+
+  container.innerHTML = '';
+
+
+  if (data.length === 0) {
+
+    container.innerHTML = `
+
+      <div class="glass loading">
+        No PYQs found for this subject.
+      </div>
+
+    `;
+
+    return;
+  }
+
+
+
+  /* =========================
+     QUESTION CARDS
+  ========================= */
+
+
+  data.forEach(question => {
+
+
+    const card =
+      document.createElement('div');
+
+
+    card.className =
+      'question-card';
+
+
+    card.innerHTML = `
+
+      <div class="question-number">
+        ${question.year}
+        · Question ${question.question_number}
+      </div>
+
+
+      <div class="question-text">
+        ${question.question_text}
+      </div>
+
+
+      <div class="option">
+        <strong>A.</strong>
+        ${question.option_a}
+      </div>
+
+
+      <div class="option">
+        <strong>B.</strong>
+        ${question.option_b}
+      </div>
+
+
+      <div class="option">
+        <strong>C.</strong>
+        ${question.option_c}
+      </div>
+
+
+      <div class="option">
+        <strong>D.</strong>
+        ${question.option_d}
+      </div>
+
+
+      <button
+        class="answer-button"
+      >
+        Show Answer
+      </button>
+
+
+      <div
+        class="answer"
+        style="display:none;"
+      >
+        <strong>
+          Answer: ${question.answer}
+        </strong>
+      </div>
+
+    `;
+
+
+    const button =
+      card.querySelector(
+        '.answer-button'
+      );
+
+
+    const answer =
+      card.querySelector(
+        '.answer'
+      );
+
+
+    button.onclick = () => {
+
+      answer.style.display =
+        'block';
+
+      button.style.display =
+        'none';
+
+    };
+
+
+    container.appendChild(card);
+
+  });
+
+}
+
+
+
+/* =========================
+   START
+========================= */
+
+
+loadSubjects();
+
+
+</script>
+
 
 </body>
+
 </html>
