@@ -15,24 +15,114 @@
 
   <h2>Subjects</h2>
 
-  <button>History</button>
+  <div id="subjects">
+    Loading subjects...
+  </div>
 
   <h2>Questions</h2>
 
-  <div>
-    <strong>2025 — Question 1</strong>
-
-    <p>
-      Consider the following statements about Raja Ram Mohan Roy:
-    </p>
-
-    <p>A. I only</p>
-    <p>B. II only</p>
-    <p>C. Both I and II</p>
-    <p>D. Neither I nor II</p>
-
-    <button>Show Answer</button>
+  <div id="questions">
+    Loading questions...
   </div>
+
+
+  <!-- Supabase library -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+
+    const SUPABASE_URL = 'https://obtqkzauwrcwhhzionur.supabase.co';
+
+    const SUPABASE_KEY = 'sb_publishable_tbdljFG952LxK0X0UNroAA__MlkQJrX';
+
+    const supabaseClient = supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+
+    // Load subjects
+    async function loadSubjects() {
+
+      const { data, error } = await supabaseClient
+        .from('subjects')
+        .select('*')
+        .order('name');
+
+      if (error) {
+        document.getElementById('subjects').innerText =
+          'Error loading subjects: ' + error.message;
+        return;
+      }
+
+      const container = document.getElementById('subjects');
+
+      container.innerHTML = '';
+
+      data.forEach(subject => {
+
+        const button = document.createElement('button');
+
+        button.innerText = subject.name;
+
+        container.appendChild(button);
+
+      });
+    }
+
+
+    // Load questions
+    async function loadQuestions() {
+
+      const { data, error } = await supabaseClient
+        .from('questions')
+        .select('*')
+        .order('year', { ascending: false });
+
+      if (error) {
+        document.getElementById('questions').innerText =
+          'Error loading questions: ' + error.message;
+        return;
+      }
+
+      const container = document.getElementById('questions');
+
+      container.innerHTML = '';
+
+      data.forEach(question => {
+
+        const card = document.createElement('div');
+
+        card.innerHTML = `
+          <hr>
+
+          <strong>
+            ${question.year} — Question ${question.question_number}
+          </strong>
+
+          <p>${question.question_text}</p>
+
+          <p>A. ${question.option_a}</p>
+          <p>B. ${question.option_b}</p>
+          <p>C. ${question.option_c}</p>
+          <p>D. ${question.option_d}</p>
+
+          <button onclick="alert('Answer: ${question.answer}')">
+            Show Answer
+          </button>
+        `;
+
+        container.appendChild(card);
+
+      });
+    }
+
+
+    // Start the application
+    loadSubjects();
+    loadQuestions();
+
+  </script>
 
 </body>
 </html>
