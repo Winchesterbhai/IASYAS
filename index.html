@@ -25,7 +25,7 @@
 
   <div id="topics"></div>
 
-  <h2>Questions</h2>
+  <h2 id="selected-topic">Questions</h2>
 
   <div id="questions">
     Select a subject to explore its topics.
@@ -124,7 +124,7 @@
         button.innerText = topic.name;
 
         button.onclick = () =>
-          loadQuestions(topic.id);
+  loadQuestions(topic.id, topic.name);
 
         container.appendChild(button);
 
@@ -137,8 +137,7 @@
 
 
     // Load questions for selected topic
-    async function loadQuestions(topicId) {
-
+    async function loadQuestions(topicId, topicName) {
   const container =
     document.getElementById('questions');
 
@@ -162,7 +161,8 @@
   }
 
 
-  container.innerHTML = '';
+  container.innerHTML = 'document.getElementById('selected-topic').innerText =
+  `${topicName} — ${data.length} PYQ${data.length === 1 ? '' : 's'}`;';
 
 
   data.forEach(question => {
