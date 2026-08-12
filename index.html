@@ -19,26 +19,31 @@
     Loading subjects...
   </div>
 
+  <h2 id="topics-title" style="display:none;">
+    Topics
+  </h2>
+
+  <div id="topics"></div>
+
   <h2>Questions</h2>
 
   <div id="questions">
-    Loading questions...
+    Select a subject to explore its topics.
   </div>
 
 
-  <!-- Supabase library -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
 
-    const SUPABASE_URL = 'https://obtqkzauwrcwhhzionur.supabase.co';
+    const SUPABASE_URL =
+      'https://obtqkzauwrcwhhzionur.supabase.co';
 
-    const SUPABASE_KEY = 'sb_publishable_tbdljFG952LxK0X0UNroAA__MlkQJrX';
+    const SUPABASE_KEY =
+      'PASTE_YOUR_PUBLISHABLE_KEY_HERE';
 
-    const supabaseClient = supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
-    );
+    const supabaseClient =
+      supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 
     // Load subjects
@@ -51,19 +56,24 @@
 
       if (error) {
         document.getElementById('subjects').innerText =
-          'Error loading subjects: ' + error.message;
+          'Error: ' + error.message;
         return;
       }
 
-      const container = document.getElementById('subjects');
+      const container =
+        document.getElementById('subjects');
 
       container.innerHTML = '';
 
       data.forEach(subject => {
 
-        const button = document.createElement('button');
+        const button =
+          document.createElement('button');
 
         button.innerText = subject.name;
+
+        button.onclick = () =>
+          loadTopics(subject.id, subject.name);
 
         container.appendChild(button);
 
@@ -71,56 +81,129 @@
     }
 
 
-    // Load questions
-    async function loadQuestions() {
+    // Load topics for selected subject
+    async function loadTopics(subjectId, subjectName) {
+
+      document.getElementById('topics-title').style.display =
+        'block';
+
+      const container =
+        document.getElementById('topics');
+
+      container.innerHTML =
+        'Loading topics...';
+
+      document.getElementById('questions').innerHTML =
+        'Select a topic to see questions.';
+
+
+      const { data, error } = await supabaseClient
+        .from('topics')
+        .select('*')
+        .eq('subject_id', subjectId)
+        .order('name');
+
+
+      if (error) {
+
+        container.innerText =
+          'Error loading topics: ' + error.message;
+
+        return;
+      }
+
+
+      container.innerHTML = '';
+
+
+      data.forEach(topic => {
+
+        const button =
+          document.createElement('button');
+
+        button.innerText = topic.name;
+
+        button.onclick = () =>
+          loadQuestions(topic.id);
+
+        container.appendChild(button);
+
+        container.appendChild(
+          document.createElement('br')
+        );
+
+      });
+    }
+
+
+    // Load questions for selected topic
+    async function loadQuestions(topicId) {
+
+      const container =
+        document.getElementById('questions');
+
+      container.innerHTML =
+        'Loading questions...';
+
 
       const { data, error } = await supabaseClient
         .from('questions')
         .select('*')
+        .eq('topic_id', topicId)
         .order('year', { ascending: false });
 
+
       if (error) {
-        document.getElementById('questions').innerText =
+
+        container.innerText =
           'Error loading questions: ' + error.message;
+
         return;
       }
 
-      const container = document.getElementById('questions');
 
       container.innerHTML = '';
 
+
       data.forEach(question => {
 
-        const card = document.createElement('div');
+        const card =
+          document.createElement('div');
 
         card.innerHTML = `
+
           <hr>
 
-          <strong>
+          <h3>
             ${question.year} — Question ${question.question_number}
-          </strong>
+          </h3>
 
-          <p>${question.question_text}</p>
+          <p>
+            ${question.question_text}
+          </p>
 
           <p>A. ${question.option_a}</p>
           <p>B. ${question.option_b}</p>
           <p>C. ${question.option_c}</p>
           <p>D. ${question.option_d}</p>
 
-          <button onclick="alert('Answer: ${question.answer}')">
+          <button onclick="
+            alert('Answer: ${question.answer}')
+          ">
             Show Answer
           </button>
+
         `;
 
         container.appendChild(card);
 
       });
+
     }
 
 
-    // Start the application
+    // Start
     loadSubjects();
-    loadQuestions();
 
   </script>
 
