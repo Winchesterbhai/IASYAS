@@ -688,7 +688,30 @@ const supabaseClient =
     SUPABASE_KEY
   );
 
+/* =========================
+   MAIN MENU
+========================= */
 
+function showPrelims() {
+
+  document.getElementById('main-menu').style.display = 'none';
+
+  document.getElementById('prelims-area').style.display = 'block';
+
+  loadSubjects();
+}
+
+
+function showGeneralStudies() {
+
+  alert('General Studies section coming soon.');
+}
+
+
+function showOptional() {
+
+  alert('Optional section coming soon.');
+}
 
 /* =========================
    LOAD SUBJECTS
