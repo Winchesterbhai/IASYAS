@@ -161,7 +161,9 @@
   }
 
 
-  container.innerHTML = 'document.getElementById('selected-topic').innerText =
+  container.innerHTML = '';
+
+document.getElementById('selected-topic').innerText =
   `${topicName} — ${data.length} PYQ${data.length === 1 ? '' : 's'}`;
 
 
