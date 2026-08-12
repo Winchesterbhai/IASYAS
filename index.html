@@ -148,7 +148,7 @@
   const { data, error } = await supabaseClient
     .from('questions')
     .select('*')
-    .eq('topic_id', topicId)
+    .eq('subject_id', topicId)
     .order('year', { ascending: false });
 
 
