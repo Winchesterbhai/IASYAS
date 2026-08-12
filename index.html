@@ -710,9 +710,45 @@ function showGeneralStudies() {
 
 function showOptional() {
 
-  alert('Optional section coming soon.');
-}
+  document.getElementById('main-menu').style.display = 'none';
 
+  document.getElementById('prelims-area').style.display = 'none';
+
+  const questions =
+    document.getElementById('questions');
+
+  questions.innerHTML = `
+    <div class="glass header">
+
+      <div class="subtitle">
+        UPSC OPTIONAL PYQ EXPLORER
+      </div>
+
+    </div>
+
+    <h2 class="section-title">
+      Optional Subjects
+    </h2>
+
+    <div id="optional-subjects">
+
+      <button class="subject-card">
+
+        <div class="subject-name">
+          Sociology
+        </div>
+
+        <div class="subject-label">
+          Paper 1 & Paper 2 →
+        </div>
+
+      </button>
+
+    </div>
+  `;
+
+  questions.style.display = 'block';
+  }
 /* =========================
    LOAD SUBJECTS
 ========================= */
